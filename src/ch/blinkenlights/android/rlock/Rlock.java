@@ -27,7 +27,7 @@ import android.content.ContentResolver;
 import android.database.ContentObserver;
 import android.widget.RemoteViews;
 import android.provider.Settings;
-import android.os.Handler;
+import android.os.Vibrator;
 
 
 public class Rlock extends AppWidgetProvider {
@@ -141,7 +141,10 @@ public class Rlock extends AppWidgetProvider {
 	*/
 	private void setRotateStatus(Context ctx, boolean on) {
 		Settings.System.putInt(ctx.getContentResolver(), Settings.System.ACCELEROMETER_ROTATION, on ? 1 : 0);
-		log("Rotate status is now: " + (rotateIsEnabled(ctx) ? "on" : "off"));
+		log("Rotate status is now: " + (on ? "on" : "off"));
+		
+		((Vibrator)ctx.getSystemService(ctx.VIBRATOR_SERVICE)).vibrate(40);
+		
 	}
 }
 
