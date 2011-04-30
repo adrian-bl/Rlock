@@ -23,8 +23,6 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ContentResolver;
-import android.database.ContentObserver;
 import android.widget.RemoteViews;
 import android.provider.Settings;
 import android.os.Vibrator;
@@ -37,23 +35,11 @@ public class Rlock extends AppWidgetProvider {
 	public void onUpdate(Context ctx, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 		updateWidget(ctx);
 	}
-	@Override
-	public void onEnabled(Context ctx) {
-		// rxo.attachObserver(ctx);
-		attachObserver(ctx);
-	}
-	@Override
-	public void onDisabled(Context ctx) {
-		// detachObserver();
-		detachObserver();
-	}
 	
 	@Override
 	public void onReceive(Context ctx, Intent intent) {
 		final String action = intent.getAction();
-
-		// should create observer
-		// attachObserver(ctx);
+		
 		if(action.equals(Intent.ACTION_TIME_TICK)) {
 		}
 		else if(action.equals(CLICK)) {
@@ -65,36 +51,6 @@ public class Rlock extends AppWidgetProvider {
 			log("onReceive: calling super due to other_event: "+action);
 			super.onReceive(ctx,intent);
 		}
-	}
-	
-	class RlockObserver extends ContentObserver {
-		public RlockObserver() {
-			super(null);
-		}
-		@Override public void onChange(boolean arg) {
-			super.onChange(arg);
-			Rlock.log("++ updating widget due to config change ++");
-		}
-	}
-	
-	
-	private void attachObserver(Context ctx) {
-	/*	if(observer == null) {
-			observer = new RlockObserver();
-			obctx    = ctx;
-			ctx.getContentResolver().registerContentObserver(Settings.System.getUriFor(Settings.System.ACCELEROMETER_ROTATION), false, observer);
-			log("--> attached observer: <"+observer+">  // <"+ctx+">");
-		}*/
-		updateWidget(ctx);
-	}
-	private void detachObserver() {
-/*		if(observer != null) {
-			log("--> detaching observer "+observer);
-			obctx.getContentResolver().unregisterContentObserver(observer);
-			observer = null;
-			obctx    = null;
-		}
-*/
 	}
 	
 	
